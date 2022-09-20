@@ -8,7 +8,6 @@
 
 from copy import deepcopy
 from ctypes import ArgumentError
-temp = 0
 
 # Enigma Components
 ETW = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -130,18 +129,15 @@ def rotate_wheels():
 
 # Enigma Exec Start
 plaintext = input("Plaintext to Encode: ")
-ukw_select = "B"  # input("Set Reflector (A, B, C): ")
-wheel_select = "III II I"  # input("Set Wheel Sequence L->R (I, II, III): ")
-wheel_pos_select = "A A A"  # input("Set Wheel Position L->R (A~Z): ")
-plugboard_setup = "AB CD"  # input("Plugboard Setup: ")
+ukw_select = input("Set Reflector (A, B, C): ")
+wheel_select = input("Set Wheel Sequence L->R (I, II, III): ")
+wheel_pos_select = input("Set Wheel Position L->R (A~Z): ")
+plugboard_setup = input("Plugboard Setup: ")
 
 apply_settings(ukw_select, wheel_select, wheel_pos_select, plugboard_setup)
 
 for ch in plaintext:
-    temp += 1
-    # print(SETTINGS)
     rotate_wheels()
-    # print(SETTINGS)
     encoded_ch = ch
 
     encoded_ch = pass_plugboard(encoded_ch)
