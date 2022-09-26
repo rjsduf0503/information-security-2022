@@ -104,12 +104,13 @@ def round(text: bitarray, round_key: bitarray) -> bitarray:
     s1_result = ba_util.int2ba(S1[s1_sel_row][s1_sel_col], length=2)
 
     pre_perm4 = s0_result + s1_result
-    
+
     result = bitarray()
     for i in P4:
         result.append(pre_perm4[i])
 
     return result
+
 
 '''
 sdes: encrypts/decrypts plaintext or ciphertext.
@@ -118,9 +119,29 @@ mode determines that this function do encryption or decryption.
 '''
 def sdes(text: bitarray, key: bitarray, mode) -> bitarray:
     result = bitarray()
-    
-    # Place your own implementation of S-DES Here
-    
+    ip_text = bitarray()
+    scheduled_keys = schedule_keys(key)
+
+    for i in IP:
+        ip_text.append(text[i])
+
+    left_text = ip_text[0:int(len(ip_text)/2)]
+    right_text = ip_text[int(len(ip_text)/2):int(len(ip_text))]
+
+    # mode == 1 : 1, mode == 2 : 0
+    round_0_result = round(right_text, scheduled_keys[2 % mode])
+
+    temp = right_text
+    right_text = left_text ^ round_0_result
+    left_text = temp
+
+    # mode == 1 : 0, mode == 2 : 1
+    round_1_result = round(right_text, scheduled_keys[mode - 1])
+
+    fp_text = (left_text ^ round_1_result) + right_text
+    for i in IP_1:
+        result.append(fp_text[i])
+
     return result
 
 #### DES Sample Program Start
