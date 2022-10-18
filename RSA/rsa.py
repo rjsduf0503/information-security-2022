@@ -5,6 +5,7 @@ import random
 from BigNumber import BigNumber
 
 # https://www.delftstack.com/howto/python/python-generate-prime-number/
+e = 65537
 def primesInRange(x, y):
     prime_list = []
     for n in range(x, y):
@@ -20,18 +21,20 @@ def primesInRange(x, y):
     return prime_list
 
 def make_keys(p: BigNumber, q: BigNumber):
-    # place your own implementation of make_keys
-    # use e = 65537 as if FIPS standard
+    n = p * q
+    euler = (p-1) * (q-1)
+    d = 1
+
+    while (e * d) % euler != 1 or d == e:
+        d += 1
 
     return [e, d, n]
 
 def rsa_encrypt(plain: BigNumber, e: BigNumber, n: BigNumber):
-    # place your own implementation of rsa_encrypt
-    pass
+    return plain ** e % n
 
 def rsa_decrypt(cipher: BigNumber, d: BigNumber, n: BigNumber):
-    # place your own implementation of rsa_decrypt
-    pass
+    return cipher ** d % n
 
 primes = primesInRange(100, 1000)
 
