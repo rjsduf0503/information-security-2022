@@ -10,6 +10,10 @@ def read_from_base64():
 
 def decrypt_message(key, iv, message):
     # AES 256 암호화 구현
+    plain = AES.new(key, AES.MODE_ECB, iv).decrypt(message)
+    unpadded = unpad(plain, 16)
+
+    return unpadded
 
 [secretkey, iv, message] = read_from_base64()
 
